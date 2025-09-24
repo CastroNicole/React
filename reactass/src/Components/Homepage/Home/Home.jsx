@@ -6,11 +6,19 @@ import ContactTable from "../ContactTable/ContactTable";
 import Card from "react-bootstrap/Card";
 import "../Home/Home.css";
 import Grid from "@mui/material/Grid";
-import AddUpdate from "../../Modals/AddUpdate/AddUpdate"; // <-- Import the modal
+import AddUpdate from "../../Modals/AddUpdate/AddUpdate";
 
 function Home() {
-  const [view, setView] = useState("card"); // "card" or "table"
-  const [showModal, setShowModal] = useState(false); // <-- Modal state
+  const [view, setView] = useState("card");
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpen = () => setOpenModal(true);
+  const handleClose = () => setOpenModal(false);
+
+  const handleSubmit = (data) => {
+    // handle the submitted data here (e.g., add to contacts)
+    setOpenModal(false);
+  };
 
   return (
     <>
@@ -19,8 +27,8 @@ function Home() {
           <div>
             <h5 className="page-title fw-bold">Contact Information</h5>
             <p className="mb-0">
-              Your list of contact appear here. To add a new contact, click the
-              Add New button.
+              Your list of contacts appear here. To add a new contact, click on the
+              <br></br>Add New Contact button.
             </p>
           </div>
 
@@ -34,7 +42,7 @@ function Home() {
                 padding: "10px 30px",
                 marginRight: "15px",
               }}
-              onClick={() => setShowModal(true)} // <-- Show modal on click
+              onClick={handleOpen}
             >
               Add New Customer
             </button>
@@ -80,8 +88,14 @@ function Home() {
           {view === "table" && <ContactTable />}
         </div>
       </div>
+
       {/* AddUpdate Modal */}
-      <AddUpdate show={showModal} handleClose={() => setShowModal(false)} />
+      <AddUpdate
+        isOpen={openModal}
+        onClose={handleClose}
+        onSubmit={handleSubmit}
+        editContact={null}
+      />
     </>
   );
 }

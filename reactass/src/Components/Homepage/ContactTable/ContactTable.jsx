@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
+import AddUpdate from "../../Modals/AddUpdate/AddUpdate";
 
 const contacts = [
   { name: "Jay Contreras", number: "0917-123-4567", email: "kamikazegod@gmail.com" },
@@ -16,6 +17,15 @@ const contacts = [
 ];
 
 function ContactTable() {
+  const [openModal, setOpenModal] = useState(false);
+  
+  const handleOpen = () => setOpenModal(true);
+  const handleClose = () => setOpenModal(false);
+  
+  const handleSubmit = (data) => {
+    // handle the submitted data here (e.g., add to contacts)
+    setOpenModal(false);
+  };
   return (
     <>
       <div style={{ marginRight: "15px" }}>
@@ -83,6 +93,7 @@ function ContactTable() {
                       verticalAlign: "middle",
                       cursor: "pointer",
                     }}
+                    onClick={handleOpen}
                   >
                     <ModeEditOutlinedIcon fontSize="small" />
                   </button>
@@ -105,6 +116,12 @@ function ContactTable() {
           </tbody>
         </Table>
       </div>
+      <AddUpdate
+        isOpen={openModal}
+        onClose={handleClose}
+        onSubmit={handleSubmit}
+        editContact={null}
+      />
     </>
   );
 }
