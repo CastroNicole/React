@@ -6,9 +6,11 @@ import ContactTable from "../ContactTable/ContactTable";
 import Card from "react-bootstrap/Card";
 import "../Home/Home.css";
 import Grid from "@mui/material/Grid";
+import AddUpdate from "../../Modals/AddUpdate/AddUpdate"; // <-- Import the modal
 
 function Home() {
   const [view, setView] = useState("card"); // "card" or "table"
+  const [showModal, setShowModal] = useState(false); // <-- Modal state
 
   return (
     <>
@@ -32,8 +34,9 @@ function Home() {
                 padding: "10px 30px",
                 marginRight: "15px",
               }}
+              onClick={() => setShowModal(true)} // <-- Show modal on click
             >
-              Add New Contact
+              Add New Customer
             </button>
           </div>
         </div>
@@ -50,7 +53,6 @@ function Home() {
                 style={{
                   fontSize: "20px",
                   color: view === "card" ? "black" : "gray",
-                  //cursor: view === "card" ? "not-allowed" : "pointer",
                 }}
               />
             </button>
@@ -67,7 +69,6 @@ function Home() {
                 style={{
                   fontSize: "20px",
                   color: view === "table" ? "black" : "gray",
-                  //cursor: view === "table" ? "not-allowed" : "pointer",
                 }}
               />
             </button>
@@ -79,6 +80,8 @@ function Home() {
           {view === "table" && <ContactTable />}
         </div>
       </div>
+      {/* AddUpdate Modal */}
+      <AddUpdate show={showModal} handleClose={() => setShowModal(false)} />
     </>
   );
 }

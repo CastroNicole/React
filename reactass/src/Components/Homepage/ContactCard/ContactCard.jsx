@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
 
 function ContactCard() {
   return (
@@ -12,7 +12,7 @@ function ContactCard() {
             <Card className="h-100" style={{ borderRadius: "10px" }}>
               <Card.Body>
                 <div className="d-flex justify-content-between align-items-center">
-                  <Card.Title>Card Title</Card.Title>
+                  <Card.Title style={{ textDecoration: "underline" }}>Card Title</Card.Title>
                   <div>
                     <button
                       aria-label="Edit Contact"
@@ -22,7 +22,7 @@ function ContactCard() {
                         fontSize: "5px",
                       }}
                     >
-                      <EditIcon />
+                      <ModeEditOutlinedIcon />
                     </button>
                     <button
                       aria-label="Delete Contact"
@@ -32,17 +32,16 @@ function ContactCard() {
                         fontSize: "5px",
                       }}
                     >
-                      <DeleteIcon />
+                      <DeleteOutlinedIcon />
                     </button>
                   </div>
                 </div>
 
-                <Card.Subtitle className="mb-2 text-muted">
-                  Card Subtitle
-                </Card.Subtitle>
+                <Card.Text className="mb-2 mt-1">
+                  wew@gmail.com
+                </Card.Text>
                 <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
+                  09123901827
                 </Card.Text>
               </Card.Body>
             </Card>

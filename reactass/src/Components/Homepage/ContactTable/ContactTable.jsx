@@ -1,13 +1,25 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
+
+const contacts = [
+  { name: "Jay Contreras", number: "0917-123-4567", email: "kamikazegod@gmail.com" },
+  { name: "Jason Astete", number: "0917-123-4567", email: "jason_the_menace@gmail.com" },
+  { name: "Mikki Jill", number: "0917-123-4567", email: "keyboardista@gmail.com" },
+  { name: "Jose Luis Linao", number: "0917-123-4567", email: "kamikazeeprince@gmail.com" },
+  { name: "Allan Burdeos", number: "0917-123-4567", email: "allan_burdeos@gmail.com" },
+  { name: "Mark Estacio", number: "0917-123-4567", email: "mark_estacio@gmail.com" },
+  { name: "Juanelli . Lubiano", number: "0917-123-4567", email: "kamikazeeprincess@gmail.com" },
+  { name: "Led Tuyay", number: "0917-123-4567", email: "led_zt@gmail.com" },
+  { name: "Sep Rono", number: "0917-123-4567", email: "sep_of_typecast@gmail.com" },
+];
 
 function ContactTable() {
   return (
     <>
       <div style={{ marginRight: "15px" }}>
-        <Table>
+        <Table bordered style={{ borderColor: "#837f89" }}>
           <thead>
             <tr>
               <th
@@ -46,6 +58,8 @@ function ContactTable() {
                   backgroundColor: "#460073",
                   color: "white",
                   fontWeight: "500",
+                  width: "90px",
+                  textAlign: "center",
                 }}
               >
                 Actions
@@ -53,33 +67,41 @@ function ContactTable() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>orayt</td>
-              <td>0923917323</td>
-              <td>wew@gmail.com</td>
-              <td>
-                <button
-                  aria-label="Edit Contact"
-                  style={{
-                    background: "none",
-                    border: "none",
-                    fontSize: "5px",
-                  }}
-                >
-                  <EditIcon />
-                </button>
-                <button
-                  aria-label="Delete Contact"
-                  style={{
-                    background: "none",
-                    border: "none",
-                    fontSize: "5px",
-                  }}
-                >
-                  <DeleteIcon />
-                </button>
-              </td>
-            </tr>
+            {contacts.map((contact, idx) => (
+              <tr key={idx}>
+                <td style={{ textDecoration: "underline" }}>{contact.name}</td>
+                <td>{contact.number}</td>
+                <td>{contact.email}</td>
+                <td style={{ textAlign: "center" }}>
+                  <button
+                    aria-label="Edit Contact"
+                    style={{
+                      background: "none",
+                      border: "none",
+                      padding: "0 6px",
+                      fontSize: "18px",
+                      verticalAlign: "middle",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <ModeEditOutlinedIcon fontSize="small" />
+                  </button>
+                  <button
+                    aria-label="Delete Contact"
+                    style={{
+                      background: "none",
+                      border: "none",
+                      padding: "0 6px",
+                      fontSize: "18px",
+                      verticalAlign: "middle",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <DeleteOutlinedIcon fontSize="small" />
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       </div>
