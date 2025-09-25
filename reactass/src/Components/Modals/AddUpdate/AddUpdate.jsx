@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Dialog,
-  DialogContent,
-  TextField,
-  Button,
-  Box,
-  Typography,
-} from "@mui/material";
+import {Dialog, DialogContent, TextField, Button, Box, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 
 function AddUpdate({ isOpen, onClose, onSubmit, editContact }) {

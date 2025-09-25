@@ -15,15 +15,21 @@ function Home() {
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
 
-  const handleSubmit = () => {
-    setOpenModal(false);
-  };
-
   useEffect(() => {
     axios.get("http://localhost:3001/contacts")
       .then((res) => setContacts(res.data))
       .catch((err) => console.error(err));
   }, []);
+
+  const addContact = async (data) => {
+    try {
+      const res = await axios.post("http://localhost:3001/contacts", data);
+      setContacts([...contacts, res.data]);
+      setOpenModal(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
@@ -63,7 +69,12 @@ function Home() {
         </div>
       </div>
 
-      <AddUpdate isOpen={openModal} onClose={handleClose} onSubmit={handleSubmit} editContact={null} />
+      <AddUpdate
+        isOpen={openModal}
+        onClose={handleClose}
+        onSubmit={addContact}
+        editContact={null}
+      />
     </>
   );
 }

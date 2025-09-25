@@ -5,8 +5,9 @@
   import AddUpdate from "../../Modals/AddUpdate/AddUpdate";
   import Delete from "../../Modals/Delete/Delete";
   import { useNavigate } from "react-router-dom";
+  import axios from "axios";
 
-  function ContactCard({ contacts }) {
+  function ContactCard({ contacts, setContacts }) {
     const [openModal, setOpenModal] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [selectedContact, setSelectedContact] = useState(null);
@@ -21,9 +22,17 @@
     };
     const handleDeleteClose = () => setOpenDelete(false);
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
+    if (!selectedContact) return;
+    try {
+      await axios.delete(`http://localhost:3001/contacts/${selectedContact.id}`);
+      setContacts(contacts.filter(c => c.id !== selectedContact.id));
       setOpenDelete(false);
-    };
+      setSelectedContact(null);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
     const handleSubmit = () => {
       setOpenModal(false);
@@ -61,7 +70,12 @@
           ))}
         </div>
         <AddUpdate isOpen={openModal} onClose={handleClose} onSubmit={handleSubmit} editContact={null} />
-        <Delete isOpen={openDelete} onClose={handleDeleteClose} onDelete={handleDelete} contactName={selectedContact ? selectedContact.name : ""} />
+        <Delete
+        isOpen={openDelete}
+        onClose={handleDeleteClose}
+        onDelete={handleDelete}
+        contactName={selectedContact ? selectedContact.name : ""}
+      />
       </>
     );
   }
