@@ -1,11 +1,12 @@
-  import React, { useState } from "react";
-  import Card from "react-bootstrap/Card";
-  import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-  import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
-  import AddUpdate from "../../Modals/AddUpdate/AddUpdate";
-  import Delete from "../../Modals/Delete/Delete";
-  import { useNavigate } from "react-router-dom";
-  import axios from "axios";
+import React, { useState } from "react";
+import Card from "react-bootstrap/Card";
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
+import AddUpdate from "../../Modals/AddUpdate/AddUpdate";
+import Delete from "../../Modals/Delete/Delete";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { phoneNumberSplit } from "../../Utils/phoneNumberUtils.jsx";
 
   function ContactCard({ contacts, setContacts, onEdit, onDelete }) {
     const [openModal, setOpenModal] = useState(false);
@@ -76,7 +77,7 @@
             <Card className="h-100" style={{ borderRadius: "10px" }}>
               <Card.Body>
                 <div className="d-flex justify-content-between align-items-center">
-                  <Card.Title style={{ textDecoration: "underline", cursor: "pointer" }} onClick={() => navigate(`/info/${contact.id}`)} >
+                  <Card.Title aria-label="Contact Name" style={{ textDecoration: "underline", cursor: "pointer" }} onClick={() => navigate(`/info/${contact.id}`)} >
                     {contact.name}
                   </Card.Title>
                   <div>
@@ -89,7 +90,7 @@
                   </div>
                 </div>
                 <Card.Text className="mb-2 mt-1">{contact.email}</Card.Text>
-                <Card.Text>{contact.contactNumber}</Card.Text>
+                <Card.Text>{phoneNumberSplit(contact.contactNumber)}</Card.Text>
               </Card.Body>
             </Card>
           </div>

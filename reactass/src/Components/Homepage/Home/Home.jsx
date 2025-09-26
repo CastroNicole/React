@@ -65,7 +65,7 @@ function Home() {
             </p>
           </div>
           <div>
-            <button className="btn fw-bold" style={{ backgroundColor: "#9400FF", color: "white", borderRadius: "25px", padding: "10px 30px", marginRight: "15px", }} onClick={handleOpen}>
+            <button aria-label="Add New Customer" className="btn fw-bold" style={{ backgroundColor: "#9400FF", color: "white", borderRadius: "25px", padding: "10px 30px", marginRight: "15px", }} onClick={handleOpen}>
               Add New Customer
             </button>
           </div>

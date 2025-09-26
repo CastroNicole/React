@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Dialog, DialogContent, TextField, Button, Box, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import "./AddUpdate.css";
+import { validateName, validateContactNumber, validateEmail } from "../../Utils/formValidators.jsx";
 
 function AddUpdate({ isOpen, onClose, onSubmit, editContact }) {
   const { register, handleSubmit, formState: { errors, isValid }, trigger, reset
@@ -36,7 +37,7 @@ function AddUpdate({ isOpen, onClose, onSubmit, editContact }) {
               </Typography>
               <TextField
                 fullWidth
-                {...register("name", { required: "Please enter a name" })}
+                {...register("name", { validate: validateName })}
                 error={!!errors.name}
                 helperText={errors.name?.message}
                 onBlur={() => trigger("name")}
@@ -50,12 +51,15 @@ function AddUpdate({ isOpen, onClose, onSubmit, editContact }) {
               </Typography>
               <TextField
                 fullWidth
-                {...register("contactNumber", { required: "Please enter a contact number." })}
+                {...register("contactNumber", { validate: validateContactNumber })}
                 error={!!errors.contactNumber}
                 helperText={errors.contactNumber?.message}
                 onBlur={() => trigger("contactNumber")}
                 variant="outlined"
                 className="addupdate-input"
+                slotProps={{
+                  input: { maxLength: 11 },
+                }}
               />
             </Box>
             <Box mb={2}>
@@ -65,7 +69,7 @@ function AddUpdate({ isOpen, onClose, onSubmit, editContact }) {
               <TextField
                 fullWidth
                 type="email"
-                {...register("email", { required: "Please enter a valid email address." })}
+                {...register("email", { validate: validateEmail })}
                 error={!!errors.email}
                 helperText={errors.email?.message}
                 onBlur={() => trigger("email")}

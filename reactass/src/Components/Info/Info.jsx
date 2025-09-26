@@ -4,6 +4,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import NotFound from "../NotFound/NotFound";
+import { phoneNumberSplit } from "../Utils/phoneNumberUtils.jsx";
 
 function Info() {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ function Info() {
             </div>
             <div>
               <div className="text-muted">Contact Number</div>
-              <h4>{contact.contactNumber}</h4>
+              <h4>{phoneNumberSplit(contact.contactNumber)}</h4>
             </div>
           </div>
 

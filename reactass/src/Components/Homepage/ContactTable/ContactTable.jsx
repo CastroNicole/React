@@ -6,6 +6,7 @@ import AddUpdate from "../../Modals/AddUpdate/AddUpdate";
 import Delete from "../../Modals/Delete/Delete";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { phoneNumberSplit } from "../../Utils/phoneNumberUtils.jsx";
 
 function ContactTable({ contacts, setContacts }) {
   const [openModal, setOpenModal] = useState(false);
@@ -85,7 +86,7 @@ function ContactTable({ contacts, setContacts }) {
             {contacts.map((contact, idx) => (
               <tr key={idx}>
                 <td style={{ textDecoration: "underline", cursor: "pointer" }} onClick={() => navigate(`/info/${contact.id}`)}>{contact.name}</td>
-                <td>{contact.contactNumber}</td>
+                <td>{phoneNumberSplit(contact.contactNumber)}</td>
                 <td>{contact.email}</td>
                 <td style={{ textAlign: "center" }}>
                   <button aria-label="Edit Contact" style={{ background: "none", border: "none", fontSize: "5px" }} onClick={() => handleEditOpen(contact)} >
