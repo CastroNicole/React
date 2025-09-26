@@ -10,7 +10,7 @@ export const validateName = (value) => {
   return true;
 };
 
-// Contact number validation - must be strictly numbers
+// Contact number validation - must be strictly numbers and exactly 11 digits
 export const validateContactNumber = (value) => {
   if (!value || value.trim().length === 0) {
     return "Please enter a contact number";
@@ -19,10 +19,13 @@ export const validateContactNumber = (value) => {
   if (!/^[\d\s\-\(\)]+$/.test(value.trim())) {
     return "Please enter a contact number";
   }
-  // Remove all non-digits and check if it has at least 10 digits
+  // Remove all non-digits and check if it has exactly 11 digits
   const digitsOnly = value.replace(/\D/g, '');
-  if (digitsOnly.length < 10) {
-    return "Please enter a contact number";
+  if (digitsOnly.length < 11) {
+    return "Only 11 digits allowed";
+  }
+  if (digitsOnly.length > 11) {
+    return "Only 11 digits allowed";
   }
   return true;
 };

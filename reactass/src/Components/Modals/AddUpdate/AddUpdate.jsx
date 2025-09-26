@@ -5,11 +5,15 @@ import "./AddUpdate.css";
 import { validateName, validateContactNumber, validateEmail } from "../../Utils/formValidators.jsx";
 
 function AddUpdate({ isOpen, onClose, onSubmit, editContact }) {
-  const { register, handleSubmit, formState: { errors, isValid }, trigger, reset
+  const { register, handleSubmit, formState: { errors, isValid }, trigger, reset, watch
   } = useForm({
     mode: "onChange",
     defaultValues: { name: "", contactNumber: "", email: "" },
   });
+
+  // Watch the contact number field to check if it has exactly 11 digits
+  const contactNumber = watch("contactNumber");
+  const isContactNumberValid = contactNumber && contactNumber.replace(/\D/g, '').length === 11;
 
   useEffect(() => {
     if (isOpen) {
@@ -83,7 +87,7 @@ function AddUpdate({ isOpen, onClose, onSubmit, editContact }) {
               <Button variant="outlined" color="secondary" onClick={onClose} className="addupdate-cancel" >
                 Cancel
               </Button>
-              <Button type="submit" variant="contained" disabled={!isValid} className="addupdate-submit" >
+              <Button type="submit" variant="contained" disabled={!isValid || !isContactNumberValid} className="addupdate-submit" >
                 {editContact ? "Save Changes" : "Add Contact"}
               </Button>
             </Box>

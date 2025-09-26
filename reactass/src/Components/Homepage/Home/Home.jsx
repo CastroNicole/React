@@ -5,9 +5,9 @@ import ContactTable from "../ContactTable/ContactTable";
 import "../Home/Home.css";
 import AddUpdate from "../../Modals/AddUpdate/AddUpdate";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { getAllContacts, createContact, updateContact, deleteContact as deleteContactService } from "../../Utils/contactService.jsx";
 
 function Home() {
   const [contacts, setContacts] = useState([]);
@@ -19,37 +19,34 @@ function Home() {
   const handleClose = () => setOpenModal(false);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/contacts")
-      .then((res) => setContacts(res.data))
-      .catch((err) => console.error(err));
+    const fetchContacts = async () => {
+      const result = await getAllContacts();
+      if (result.success) {
+        setContacts(result.data);
+      } else {
+        setSnackbar({ open: true, message: "Failed to load contacts.", severity: "error" });
+      }
+    };
+    fetchContacts();
   }, []);
 
   const addContact = async (data) => {
-    try {
-      const res = await axios.post("http://localhost:3001/contacts", data);
-      setContacts([...contacts, res.data]);
+    const result = await createContact(data);
+    if (result.success) {
+      setContacts([...contacts, result.data]);
       setOpenModal(false);
-      setSnackbar({ open: true, message: "Contact added successfully!", severity: "success" });
-    } catch (err) {
-      console.error(err);
+      setSnackbar({ open: true, message: "Successfully added a new contact!", severity: "success" });
+    } else {
       setSnackbar({ open: true, message: "Failed to add contact.", severity: "error" });
     }
   };
 
   const editContact = async (data) => {
-    try {
-      setSnackbar({ open: true, message: "Contact updated successfully!", severity: "success" });
-    } catch (err) {
-      setSnackbar({ open: true, message: "Failed to update contact.", severity: "error" });
-    }
+    setSnackbar({ open: true, message: "Changes saved", severity: "success" });
   };
 
-  const deleteContact = async (id) => {
-    try {
-      setSnackbar({ open: true, message: "Contact deleted successfully!", severity: "success" });
-    } catch (err) {
-      setSnackbar({ open: true, message: "Failed to delete contact.", severity: "error" });
-    }
+  const deleteContact = (id) => {
+    setSnackbar({ open: true, message: "Contact deleted successfully!", severity: "success" });
   };
 
   const handleSnackbarClose = () => setSnackbar({ ...snackbar, open: false });
@@ -59,7 +56,7 @@ function Home() {
       <div className="container mt-5">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <div>
-            <h5 className="page-title fw-bold">Contact Information</h5>
+            <h5 className="page-title fw-bold">Contacts Information</h5>
             <p className="mb-0">
               Your list of contacts appear here. To add a new contact, click on the<br></br>Add New Contact button.
             </p>
@@ -74,12 +71,12 @@ function Home() {
         <div className="d-flex justify-content-end me-3 mb-2">
           <div>
             <button aria-label="Card View" style={{ background: "none", border: "none" }} onClick={() => setView("card")} disabled={view === "card"}>
-              <GridViewIcon style={{ fontSize: "20px", color: view === "card" ? "black" : "gray" }}/>
+              <GridViewIcon style={{ fontSize: "20px", color: view === "card" ? "gray" : "black" }}/>
             </button>
           </div>
           <div>
             <button aria-label="Table View" style={{ background: "none", border: "none" }} onClick={() => setView("table")} disabled={view === "table"}>
-              <MenuOutlinedIcon style={{ fontSize: "20px", color: view === "table" ? "black" : "gray", }} />
+              <MenuOutlinedIcon style={{ fontSize: "20px", color: view === "table" ? "gray" : "black", }} />
             </button>
           </div>
         </div>
@@ -92,7 +89,7 @@ function Home() {
 
       <AddUpdate isOpen={openModal} onClose={handleClose} onSubmit={addContact} editContact={null} />
       <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right" }} open={snackbar.open} autoHideDuration={3000} onClose={handleSnackbarClose} >
-        <Alert onClose={handleSnackbarClose} severity={snackbar.severity} style={{ width: "100%" }} >
+        <Alert severity={snackbar.severity} style={{ width: "100%" }} >
           {snackbar.message}
         </Alert>
       </Snackbar>

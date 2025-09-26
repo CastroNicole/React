@@ -5,10 +5,10 @@ import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
 import AddUpdate from "../../Modals/AddUpdate/AddUpdate";
 import Delete from "../../Modals/Delete/Delete";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { phoneNumberSplit } from "../../Utils/phoneNumberUtils.jsx";
+import { updateContact, deleteContact } from "../../Utils/contactService.jsx";
 
-function ContactTable({ contacts, setContacts }) {
+function ContactTable({ contacts, setContacts, onEdit, onDelete }) {
   const [openModal, setOpenModal] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [selectedContact, setSelectedContact] = useState(null);
@@ -33,28 +33,30 @@ function ContactTable({ contacts, setContacts }) {
 
   const handleDelete = async () => {
       if (!selectedContact) return;
-      try {
-        await axios.delete(`http://localhost:3001/contacts/${selectedContact.id}`);
+      const result = await deleteContact(selectedContact.id);
+      if (result.success) {
         setContacts(contacts.filter(c => c.id !== selectedContact.id));
         setOpenDelete(false);
         setSelectedContact(null);
-      } catch (err) {
-        console.error(err);
+        if (onDelete) {
+          onDelete(selectedContact.id);
+        }
       }
     };
     // Update contact logic
   const handleSubmit = async (data) => {
     if (selectedContact) {
       // Update existing contact
-      try {
-        const res = await axios.put(`http://localhost:3001/contacts/${selectedContact.id}`, data);
+      const result = await updateContact(selectedContact.id, data);
+      if (result.success) {
         setContacts(
-          contacts.map((c) => (c.id === selectedContact.id ? res.data : c))
+          contacts.map((c) => (c.id === selectedContact.id ? result.data : c))
         );
         setOpenModal(false);
         setSelectedContact(null);
-      } catch (err) {
-        console.error(err);
+        if (onEdit) {
+          onEdit(data);
+        }
       }
     } else {
       // Add new contact (if you want to keep add functionality here)
@@ -85,7 +87,19 @@ function ContactTable({ contacts, setContacts }) {
           <tbody>
             {contacts.map((contact, idx) => (
               <tr key={idx}>
-                <td style={{ textDecoration: "underline", cursor: "pointer" }} onClick={() => navigate(`/info/${contact.id}`)}>{contact.name}</td>
+                <td>
+                  <button 
+                    aria-label={`View details for ${contact.name}`}
+                    style={{ background: "none", border: "none", textDecoration: "underline", cursor: "pointer", textAlign: "left" }} 
+                    onClick={() => navigate(`/info/${contact.id}`)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        navigate(`/info/${contact.id}`);
+                      }}}>
+                    {contact.name}
+                  </button>
+                </td>
                 <td>{phoneNumberSplit(contact.contactNumber)}</td>
                 <td>{contact.email}</td>
                 <td style={{ textAlign: "center" }}>

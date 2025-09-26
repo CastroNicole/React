@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import NotFound from "../NotFound/NotFound";
 import { phoneNumberSplit } from "../Utils/phoneNumberUtils.jsx";
+import { getContactById } from "../Utils/contactService.jsx";
 
 function Info() {
   const navigate = useNavigate();
@@ -13,15 +13,15 @@ function Info() {
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/contacts/${id}`)
-      .then((res) => {
-        if (res.data && Object.keys(res.data).length > 0) {
-          setContact(res.data);
-        } else {
-          setNotFound(true);
-        }
-      })
-      .catch(() => setNotFound(true));
+    const fetchContact = async () => {
+      const result = await getContactById(id);
+      if (result.success && result.data && Object.keys(result.data).length > 0) {
+        setContact(result.data);
+      } else {
+        setNotFound(true);
+      }
+    };
+    fetchContact();
   }, [id]);
   if (notFound) return <NotFound />;
   if (!contact) return null;

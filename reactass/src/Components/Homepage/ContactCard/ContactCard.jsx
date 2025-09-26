@@ -5,8 +5,8 @@ import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
 import AddUpdate from "../../Modals/AddUpdate/AddUpdate";
 import Delete from "../../Modals/Delete/Delete";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { phoneNumberSplit } from "../../Utils/phoneNumberUtils.jsx";
+import { updateContact, deleteContact } from "../../Utils/contactService.jsx";
 
   function ContactCard({ contacts, setContacts, onEdit, onDelete }) {
     const [openModal, setOpenModal] = useState(false);
@@ -33,16 +33,14 @@ import { phoneNumberSplit } from "../../Utils/phoneNumberUtils.jsx";
 
     const handleDelete = async () => {
     if (!selectedContact) return;
-    try {
-      await axios.delete(`http://localhost:3001/contacts/${selectedContact.id}`);
+    const result = await deleteContact(selectedContact.id);
+    if (result.success) {
       setContacts(contacts.filter(c => c.id !== selectedContact.id));
       setOpenDelete(false);
       setSelectedContact(null);
       if (onDelete) {
-        await onDelete(selectedContact.id); // <-- Call parent's deleteContact for snackbar
+        onDelete(selectedContact.id);
       }
-    } catch (err) {
-      console.error(err);
     }
   };
 
@@ -50,18 +48,16 @@ import { phoneNumberSplit } from "../../Utils/phoneNumberUtils.jsx";
   const handleSubmit = async (data) => {
     if (selectedContact) {
       // Update existing contact
-      try {
-        const res = await axios.put(`http://localhost:3001/contacts/${selectedContact.id}`, data);
+      const result = await updateContact(selectedContact.id, data);
+      if (result.success) {
         setContacts(
-          contacts.map((c) => (c.id === selectedContact.id ? res.data : c))
+          contacts.map((c) => (c.id === selectedContact.id ? result.data : c))
         );
         setOpenModal(false);
         setSelectedContact(null);
         if (onEdit) {
-          await onEdit(data); // <-- Call parent's editContact for snackbar
+          await onEdit(data);
         }
-      } catch (err) {
-        console.error(err);
       }
     } else {
       // Add new contact
@@ -77,9 +73,17 @@ import { phoneNumberSplit } from "../../Utils/phoneNumberUtils.jsx";
             <Card className="h-100" style={{ borderRadius: "10px" }}>
               <Card.Body>
                 <div className="d-flex justify-content-between align-items-center">
-                  <Card.Title aria-label="Contact Name" style={{ textDecoration: "underline", cursor: "pointer" }} onClick={() => navigate(`/info/${contact.id}`)} >
+                  <button 
+                    aria-label={`View details for ${contact.name}`}
+                    style={{ background: "none", border: "none", textDecoration: "underline", cursor: "pointer", padding: 0, fontSize: "1.25rem", fontWeight: "500", color: "inherit", textAlign: "left" }} 
+                    onClick={() => navigate(`/info/${contact.id}`)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        navigate(`/info/${contact.id}`);
+                      }}}>
                     {contact.name}
-                  </Card.Title>
+                  </button>
                   <div>
                     <button aria-label="Edit Contact" style={{ background: "none", border: "none", fontSize: "5px" }} onClick={() => handleEditOpen(contact)}>
                       <ModeEditOutlinedIcon />
