@@ -57,8 +57,10 @@ function AddUpdate({ isOpen, onClose, onSubmit, editContact }) {
                 onBlur={() => trigger("contactNumber")}
                 variant="outlined"
                 className="addupdate-input"
-                slotProps={{
-                  input: { maxLength: 11 },
+                onInput={(e) => {
+                  if (e.target.value.length > 11) {
+                    e.target.value = e.target.value.slice(0, 11);
+                  }
                 }}
               />
             </Box>
