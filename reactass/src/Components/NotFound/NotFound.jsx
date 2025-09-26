@@ -7,9 +7,7 @@ function NotFound() {
     <>
       <div className="container d-flex justify-content-start mt-5">
         <div>
-          <ErrorOutlineIcon
-            style={{ fontSize: "70px", marginBottom: "10px" }}
-          />
+          <ErrorOutlineIcon style={{ fontSize: "70px", marginBottom: "10px" }} />
           <h2 className="fw-bold">Oops! Page Not Found</h2>
           <p>Sorry, the requested is not found. Please check the URL again.</p>
         </div>

@@ -1,21 +1,29 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import NotFound from "../NotFound/NotFound";
 
 function Info() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [contact, setContact] = useState(null);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     axios.get(`http://localhost:3001/contacts/${id}`)
-      .then((res) => setContact(res.data))
-      .catch((err) => console.error(err));
+      .then((res) => {
+        if (res.data && Object.keys(res.data).length > 0) {
+          setContact(res.data);
+        } else {
+          setNotFound(true);
+        }
+      })
+      .catch(() => setNotFound(true));
   }, [id]);
-
-  if (!contact) return <div>Loading...</div>;
+  if (notFound) return <NotFound />;
+  if (!contact) return null;
 
   return (
     <>

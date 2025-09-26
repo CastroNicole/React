@@ -1,0 +1,58 @@
+.addupdate-dialog {
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  max-width: 360px !important; /* Make it narrower */
+  width: 100%;
+  margin: auto !important;      /* Center horizontally */
+}
+
+.addupdate-content {
+  background-color: white;
+  padding: 32px;
+}
+
+.addupdate-label {
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 8px;
+}
+
+.addupdate-input .MuiOutlinedInput-root {
+  border-radius: 5px;
+  background: #fafafa;
+  font-family: 'Poppins', sans-serif;
+}
+
+.addupdate-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+  gap: 16px;
+}
+
+.addupdate-cancel {
+  color: #7e00f7 !important;
+  border-color: #7e00f7 !important;
+  border-radius: 25px !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+  background: #fff !important;
+  font-family: 'Poppins', sans-serif !important;
+  padding: 12px 32px !important;
+}
+
+.addupdate-submit {
+  background: linear-gradient(90deg, #7e00f7 0%, #9400FF 100%) !important;
+  color: #fff !important;
+  border-radius: 25px !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+  font-family: 'Poppins', sans-serif !important;
+  padding: 12px 32px !important;
+  box-shadow: none !important;
+}
+
+.addupdate-submit:disabled {
+  background: #cccccc !important;
+  color: #666666 !important;
+}
