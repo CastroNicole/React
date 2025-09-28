@@ -7,7 +7,7 @@ import AddUpdate from "../../Modals/AddUpdate/AddUpdate";
 import { useState, useEffect } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import { getAllContacts, createContact, updateContact, deleteContact as deleteContactService } from "../../Utils/contactService.jsx";
+import { getAllContacts, createContact } from "../../Utils/contactService.jsx";
 
 function Home() {
   const [contacts, setContacts] = useState([]);

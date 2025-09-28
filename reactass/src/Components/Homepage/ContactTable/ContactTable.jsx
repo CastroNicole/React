@@ -13,11 +13,6 @@ function ContactTable({ contacts, setContacts, onEdit, onDelete }) {
   const [openDelete, setOpenDelete] = useState(false);
   const [selectedContact, setSelectedContact] = useState(null);
   const navigate = useNavigate();
-  // Open modal for adding
-    const handleOpen = () => {
-      setSelectedContact(null);
-      setOpenModal(true);
-    };
     // Open modal for editing
     const handleEditOpen = (contact) => {
       setSelectedContact(contact);

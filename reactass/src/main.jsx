@@ -13,8 +13,8 @@ createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <Routes>
         <Route path="*" element={<NotFound />} />
-        <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/info/:id" element={<Info />} />"
       </Routes>
     </BrowserRouter>

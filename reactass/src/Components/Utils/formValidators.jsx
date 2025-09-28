@@ -30,6 +30,17 @@ export const validateContactNumber = (value) => {
   return true;
 };
 
+// Contact number input handler - combines validation and 11-digit limit
+export const handleContactNumberInput = (e, setValue) => {
+  const value = e.target.value;
+  // Remove any non-digit characters
+  const digitsOnly = value.replace(/\D/g, '');
+  // Limit to 11 digits
+  const limitedValue = digitsOnly.slice(0, 11);
+  // Update the input value
+  setValue('contactNumber', limitedValue);
+};
+
 // Email validation - must be a valid email format
 export const validateEmail = (value) => {
   if (!value || value.trim().length === 0) {

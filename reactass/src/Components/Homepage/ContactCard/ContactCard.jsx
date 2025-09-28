@@ -13,11 +13,6 @@ import { updateContact, deleteContact } from "../../Utils/contactService.jsx";
     const [openDelete, setOpenDelete] = useState(false);
     const [selectedContact, setSelectedContact] = useState(null);
     const navigate = useNavigate();
-    // Open modal for adding
-    const handleOpen = () => {
-      setSelectedContact(null);
-      setOpenModal(true);
-    };
     // Open modal for editing
     const handleEditOpen = (contact) => {
       setSelectedContact(contact);
@@ -32,17 +27,18 @@ import { updateContact, deleteContact } from "../../Utils/contactService.jsx";
     const handleDeleteClose = () => setOpenDelete(false);
 
     const handleDelete = async () => {
-    if (!selectedContact) return;
-    const result = await deleteContact(selectedContact.id);
-    if (result.success) {
-      setContacts(contacts.filter(c => c.id !== selectedContact.id));
-      setOpenDelete(false);
-      setSelectedContact(null);
-      if (onDelete) {
-        onDelete(selectedContact.id);
+      if (!selectedContact) return;
+      const result = await deleteContact(selectedContact.id);
+      if (result.success) {
+        setContacts(contacts.filter(c => c.id !== selectedContact.id));
+        setOpenDelete(false);
+        setSelectedContact(null);
+        //callback
+        if (onDelete) {
+          onDelete(selectedContact.id);
+        }
       }
-    }
-  };
+    };
 
     // Update contact logic
   const handleSubmit = async (data) => {

@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { Dialog, DialogContent, TextField, Button, Box, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import "./AddUpdate.css";
-import { validateName, validateContactNumber, validateEmail } from "../../Utils/formValidators.jsx";
+import { validateName, validateContactNumber, validateEmail, handleContactNumberInput } from "../../Utils/formValidators.jsx";
 
 function AddUpdate({ isOpen, onClose, onSubmit, editContact }) {
-  const { register, handleSubmit, formState: { errors, isValid }, trigger, reset, watch
+  const { register, handleSubmit, formState: { errors, isValid }, trigger, reset, watch, setValue
   } = useForm({
     mode: "onChange",
     defaultValues: { name: "", contactNumber: "", email: "" },
@@ -61,11 +61,8 @@ function AddUpdate({ isOpen, onClose, onSubmit, editContact }) {
                 onBlur={() => trigger("contactNumber")}
                 variant="outlined"
                 className="addupdate-input"
-                onInput={(e) => {
-                  if (e.target.value.length > 11) {
-                    e.target.value = e.target.value.slice(0, 11);
-                  }
-                }}
+                //onInput={(e) => { if (e.target.value.length > 11) { e.target.value = e.target.value.slice(0, 11); } }}
+                onInput={(e) => handleContactNumberInput(e, setValue)}
               />
             </Box>
             <Box mb={2}>
